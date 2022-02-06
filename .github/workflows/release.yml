@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Assign release version from version.properties to Env variable
       run: |
-          echo "VER=$(cat VERSION.txt)" >> $GITHUB_ENV
+          echo "VERS=$(cat VERSION.txt)" >> $GITHUB_ENV
     - uses: actions/checkout@v1
     - name: Zip Folder
       run: zip -r release.zip .
@@ -21,7 +21,7 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: true
-        title: "${{ env.VER }}"
+        title: "${{ env.VERS }}"
         files: |
           LICENSE.txt
           *.zip
