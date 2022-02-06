@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Assign release version from version.properties to Env variable
       run: |
-          echo "VER=$(echo cat VERSION.txt)" >> $GITHUB_ENV
+          echo "VER=$(cat VERSION.txt)" >> $GITHUB_ENV
     - uses: actions/checkout@v1
     - name: Zip Folder
       run: zip -r release.zip .
