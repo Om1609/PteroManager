@@ -9,13 +9,11 @@ jobs:
     steps:
       - name: Checkout repo content
         uses: actions/checkout@v2
-      - name: Action Zip
         uses: papeloto/action-zip@v1
       with:
-        python-version: '3.9'
-          files: /
-          recursive: true
-          dest: release.zip
+        files: /
+        recursive: true
+        dest: release.zip
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
