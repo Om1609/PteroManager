@@ -1,0 +1,21 @@
+name: Create Release
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout repo content
+        uses: actions/checkout@v2
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: execute py script
+        run: |
+          pip3 install -r requirements.txt
+          python3 main.py
+      - name: export index
+        .... # use crosponding script or actions to help export.
