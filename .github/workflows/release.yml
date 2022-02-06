@@ -1,0 +1,27 @@
+name: Create Release
+on: push
+  # push:
+  #   branches-ignore:    
+  #     - 'main'
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+    - name: Assign release version from version.properties to Env variable
+      run: |
+          echo "VER=$(echo cat VERSION.txt)" >> $GITHUB_ENV
+    - uses: actions/checkout@v1
+    - name: Zip Folder
+      run: zip -r release.zip .
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "${{ env.VER }}"
+        files: |
+          LICENSE.txt
+          *.zip
