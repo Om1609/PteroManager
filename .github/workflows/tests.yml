@@ -17,5 +17,3 @@ jobs:
         run: |
           pip3 install -r requirements.txt
           python3 main.py
-      - name: export index
-        .... # use crosponding script or actions to help export.
