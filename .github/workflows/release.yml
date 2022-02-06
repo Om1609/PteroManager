@@ -1,8 +1,8 @@
 name: Create Release
 on:
   push:
-    branches-ignore:    
-      - 'main'
+    branches:
+      - 'develop'
 jobs:
   release:
     runs-on: ubuntu-20.04
