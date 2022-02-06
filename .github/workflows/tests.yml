@@ -1,7 +1,7 @@
 name: Test the bot
 on: push
 jobs:
-  run_the_bot:
+  Run the bot:
     runs-on: ubuntu-20.04
     steps:
       - name: checkout repo content
@@ -14,3 +14,8 @@ jobs:
         run: |
           pip3 install -r requirements.txt
           python3 main.py
+        env:
+          GUILD_ID: ${{ secrets.GUILD_ID }} 
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }} 
+          PTERO_ADMIN_KEY: ${{ secrets.PTERO_ADMIN_KEY }} 
+          ROLE_NAME: ${{ secrets.ROLE_NAME }} 
