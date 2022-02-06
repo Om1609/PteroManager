@@ -1,8 +1,9 @@
 name: Create Release
 on:
-  push:
-    brances-ignore:
-      'main'
+  workflow_run:
+    workflows: ["Test the bot"]
+    types:
+      - passed
 
 jobs:
   pre-release:
