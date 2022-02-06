@@ -30,7 +30,7 @@ class Staff(commands.Cog):
         key = os.environ["ADMINS_API_KEY"]
         # await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
-        req = await self.session.get(f'https://panel.epikhost.xyz/api/client/servers/{serverid}', params=headers)
+        req = await self._session.get(f'https://panel.epikhost.xyz/api/client/servers/{serverid}', params=headers)
         jsonResponse = await req.json()
         data = {
           "name": jsonResponse["attributes"]["name"]
