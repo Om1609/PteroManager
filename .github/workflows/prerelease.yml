@@ -1,26 +1,26 @@
-# name: Create Pre-Release
-# on:
-#   workflow_run:
-#     workflows: ["Test the bot"]
-#     types:
-#       - completed
+name: Create Pre-Release
+on:
+  workflow_run:
+    workflows: ["Test the bot"]
+    types:
+      - completed
 
-# jobs:
-#   pre-release:
-#     name: "Pre Release"
-#     runs-on: "ubuntu-latest"
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
 
-#     steps:
-#     - uses: actions/checkout@v1
-#     - name: Zip Folder
-#       run: zip -r release.zip .
+    steps:
+    - uses: actions/checkout@v1
+    - name: Zip Folder
+      run: zip -r release.zip .
 
-#     - uses: "marvinpinto/action-automatic-releases@latest"
-#       with:
-#         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-#         automatic_release_tag: "latest"
-#         prerelease: true
-#         title: "Development Build"
-#         files: |
-#           LICENSE.txt
-#           *.zip
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          LICENSE.txt
+          *.zip
