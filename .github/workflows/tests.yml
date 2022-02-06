@@ -10,9 +10,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: execute py script
+      - name: install pip requirements
         run: |
           pip3 install -r requirements.txt
+          python3 main.py
+      - name: Start bot
+        run: |
           python3 main.py
         env:
           GUILD_ID: ${{ secrets.GUILD_ID }} 
