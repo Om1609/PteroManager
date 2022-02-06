@@ -9,6 +9,10 @@ import requests
 class Staff(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
+    
+  @property
+  def _session(self):
+    return self.bot.http._HTTPClient__session
   
   @slash_command(
       guild_ids=[os.environ["GUILD_ID"]],
@@ -26,8 +30,8 @@ class Staff(commands.Cog):
         key = os.environ["ADMINS_API_KEY"]
         # await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
-        req = requests.get(f'https://panel.epikhost.xyz/api/client/servers/{serverid}', headers=headers)
-        jsonResponse = req.json()
+        req = await self._session.get(f'https://panel.epikhost.xyz/api/client/servers/{serverid}', params=headers)
+        jsonResponse = await req.json()
         data = {
           "name": jsonResponse["attributes"]["name"]
         }
