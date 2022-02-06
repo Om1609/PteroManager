@@ -3,7 +3,7 @@ on:
   workflow_run:
     workflows: ["Test the bot"]
     types:
-      - passed
+      - completed
 
 jobs:
   pre-release:
