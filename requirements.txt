@@ -1,0 +1,3 @@
+git+https://github.com/pycord-development/pycord
+colorama
+python-dotenv
