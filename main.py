@@ -1,9 +1,10 @@
 import discord
 from discord.commands import Option
-from dotenv import dotenv_values
+from dotenv import load_dotenv
 from utils.logging import log
+import os
 # Load the env file
-config = dotenv_values(".env")
+load_dotenv()
 
 # Initiate the PyCord Bot.
 bot = discord.Bot()
@@ -14,7 +15,7 @@ async def on_ready():
     log(4, f"We have logged in as {bot.user}")
 
 @bot.slash_command(
-    guild_ids=[config["GUILD_ID"]],
+    guild_ids=[os.environ["GUILD_ID"]],
     description="Get information about a specified server!",
     )
 async def serverlookup(
@@ -25,7 +26,7 @@ async def serverlookup(
     roles = []
     for role in ctx.author.roles:
         roles.append(role.name)
-    if config["ROLE_NAME"] in roles:
+    if os.environ["ROLE_NAME"] in roles:
         if hide == True:
             await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
         else:
@@ -34,4 +35,4 @@ async def serverlookup(
         log(3, f"{ctx.author.name}#{ctx.author.discriminator} ({ctx.author.id}) attempt to run the Server Lookup command!")
         await ctx.respond(f"Sorry, {ctx.author.name}, but you don't have permission to run this command!", ephemeral=True)
 
-bot.run(config["BOT_TOKEN"])
+bot.run(os.environ["BOT_TOKEN"])

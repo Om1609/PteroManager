@@ -1,7 +1,7 @@
 name: Test the bot
 on: push
 jobs:
-  release:
+  run_the_bot:
     runs-on: ubuntu-20.04
     steps:
       - name: checkout repo content
