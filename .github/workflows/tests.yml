@@ -1,4 +1,4 @@
-name: Create Release
+name: Test the bot
 on: push
 jobs:
   release:
