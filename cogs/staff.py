@@ -1,3 +1,4 @@
+import json
 from discord.ext import commands
 import discord
 from discord import Embed
@@ -47,16 +48,27 @@ class Staff(commands.Cog):
                     "max_mem": jsonResponse["attributes"]["limits"]["memory"],
                     "max_cpu": jsonResponse["attributes"]["limits"]["cpu"],
                     "max_disk": jsonResponse["attributes"]["limits"]["disk"],
+					"ip": jsonResponse["attributes"]["relationships"]["allocations"]["data"][0]["attributes"]["ip"],
+					"port": jsonResponse["attributes"]["relationships"]["allocations"]["data"][0]["attributes"]["port"]
                 }
-                print(jsonResponse)
                 info_embed = Embed(
                     title=f'Information about: {data["name"]}', color=0xCADCFC
                 )
                 info_embed.add_field(
                     name="Server Name:", value=data["name"], inline=False
                 )
-                info_embed.add_field(name="Server ID:", value=data["id"], inline=False)
-                info_embed.add_field(name="Node:", value=data["node"], inline=False)
+                info_embed.add_field(
+					name="Server ID:", value=data["id"], inline=False
+				)
+                info_embed.add_field(
+					name="Node:", value=data["node"], inline=False
+				)
+                info_embed.add_field(
+                    name="IP:", value=data["ip"], inline=False
+                )
+                info_embed.add_field(
+                    name="Port:", value=data["port"], inline=False
+                )
                 info_embed.add_field(
                     name="Docker Image:", value=data["docker_image"], inline=False
                 )
@@ -68,7 +80,7 @@ class Staff(commands.Cog):
                 )
                 info_embed.add_field(
                     name="Memory Amount:", value=data["max_disk"], inline=False
-                )
+                )                
                 await ctx.respond(embed=info_embed)
 
             else:

@@ -8,7 +8,7 @@ class Admin(commands.Cog):
 
     @slash_command(name="test")
     async def test(self, ctx):
-        await ctx.respond()
+        await ctx.respond("hey lol")
 
 
 def setup(bot):
