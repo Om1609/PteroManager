@@ -38,42 +38,51 @@ class Staff(commands.Cog):
                 f"https://panel.epikhost.xyz/api/client/servers/{serverid}",
                 headers=headers,
             )
-            jsonResponse = await req.json()
-            data = {
-                "name": jsonResponse["attributes"]["name"],
-                "id": jsonResponse["attributes"]["identifier"],
-                "node": jsonResponse["attributes"]["node"],
-                "docker_image": jsonResponse["attributes"]["docker_image"],
-                "max_mem": jsonResponse["attributes"]["limits"]["memory"],
-                "max_cpu": jsonResponse["attributes"]["limits"]["cpu"],
-                "max_disk": jsonResponse["attributes"]["limits"]["disk"],
-                "ip": jsonResponse["attributes"]["relationships"]["allocations"][
-                    "data"
-                ][0]["attributes"]["ip"],
-                "port": jsonResponse["attributes"]["relationships"]["allocations"][
-                    "data"
-                ][0]["attributes"]["port"],
-            }
-            info_embed = Embed(
-                title=f'Information about: {data["name"]}', color=0xCADCFC
-            )
-            info_embed.add_field(name="Server Name:", value=data["name"], inline=False)
-            info_embed.add_field(name="Server ID:", value=data["id"], inline=False)
-            info_embed.add_field(name="Node:", value=data["node"], inline=False)
-            info_embed.add_field(name="IP:", value=data["ip"], inline=False)
-            info_embed.add_field(name="Port:", value=data["port"], inline=False)
-            info_embed.add_field(
-                name="Docker Image:", value=data["docker_image"], inline=False
-            )
-            info_embed.add_field(
-                name="Memory Amount:", value=data["max_mem"], inline=False
-            )
-            info_embed.add_field(
-                name="CPU Amount:", value=data["max_cpu"], inline=False
-            )
-            info_embed.add_field(
-                name="Memory Amount:", value=data["max_disk"], inline=False
-            )
+            if req.status == 200:
+                jsonResponse = await req.json()
+                data = {
+                    "name": jsonResponse["attributes"]["name"],
+                    "id": jsonResponse["attributes"]["identifier"],
+                    "node": jsonResponse["attributes"]["node"],
+                    "docker_image": jsonResponse["attributes"]["docker_image"],
+                    "max_mem": jsonResponse["attributes"]["limits"]["memory"],
+                    "max_cpu": jsonResponse["attributes"]["limits"]["cpu"],
+                    "max_disk": jsonResponse["attributes"]["limits"]["disk"],
+                    "ip": jsonResponse["attributes"]["relationships"]["allocations"][
+                        "data"
+                    ][0]["attributes"]["ip"],
+                    "port": jsonResponse["attributes"]["relationships"]["allocations"][
+                        "data"
+                    ][0]["attributes"]["port"],
+                }
+                info_embed = Embed(
+                    title=f'Information about: {data["name"]}', color=0xCADCFC
+                )
+                info_embed.add_field(
+                    name="Server Name:", value=data["name"], inline=False
+                )
+                info_embed.add_field(name="Server ID:", value=data["id"], inline=False)
+                info_embed.add_field(name="Node:", value=data["node"], inline=False)
+                info_embed.add_field(name="IP:", value=data["ip"], inline=False)
+                info_embed.add_field(name="Port:", value=data["port"], inline=False)
+                info_embed.add_field(
+                    name="Docker Image:", value=data["docker_image"], inline=False
+                )
+                info_embed.add_field(
+                    name="Memory Amount:", value=data["max_mem"], inline=False
+                )
+                info_embed.add_field(
+                    name="CPU Amount:", value=data["max_cpu"], inline=False
+                )
+                info_embed.add_field(
+                    name="Memory Amount:", value=data["max_disk"], inline=False
+                )
+            else:
+                info_embed = Embed(
+                    title=f"Error",
+                    description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
+                    color=0xFF0033,
+                )
             if hide == True:
                 await ctx.respond(embed=info_embed, ephemeral=True)
 
