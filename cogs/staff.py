@@ -27,7 +27,7 @@ class Staff(commands.Cog):
     ):
         roles = [role.name for role in ctx.author.roles]
         if os.environ["ROLE_NAME"] in roles:
-            if hide:
+            if hide == True:
                 key = os.environ["ADMINS_API_KEY"]
                 # await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
                 headers = {
