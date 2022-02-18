@@ -22,12 +22,12 @@ class Staff(commands.Cog):
     async def serverlookup(
         self,
         ctx: discord.ApplicationContext,
-        serverid: discord.commands.Option(str, "Server ID"),
-        hide: discord.commands.Option(bool, "Hide message?"),
+        serverid: Option(str, "Server ID"),
+        hide: Option(bool, "Hide message?"),
     ):
         roles = [role.name for role in ctx.author.roles]
         if os.environ["ROLE_NAME"] in roles:
-            if hide == True:
+            if hide:
                 key = os.environ["ADMINS_API_KEY"]
                 # await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
                 headers = {
