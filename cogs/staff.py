@@ -23,8 +23,8 @@ class Staff(commands.Cog):
     async def serverlookup(
         self,
         ctx: discord.ApplicationContext,
-        serverid: discord.commands.Option(str, "Server ID"),
-        hide: discord.commands.Option(bool, "Hide message?"),
+        serverid: Option(str, "Server ID"),
+        hide: Option(bool, "Hide message?"),
     ):
         roles = [role.name for role in ctx.author.roles]
         if os.environ["ROLE_NAME"] in roles:
