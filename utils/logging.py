@@ -1,5 +1,6 @@
 from colorama import Fore
 
+
 def log(level, text):
     if level == 0:
         print(f"{Fore.RED}FATAL:{Fore.RESET} {text}")
