@@ -10,10 +10,10 @@ load_dotenv()
 
 # Initiate the PyCord Bot.
 bot = PteroManager()
-
-# Load the cogs
-for filename in os.listdir("./cogs"):
-    if filename.endswith(".py"):
-        bot.load_extension(f"cogs.{filename[:-3]}")
+try:
+    bot.load_cogs()
+    print("Loaded all cogs")
+except:
+    print("There was an error in loading the cogs!")
 
 bot.run(os.environ["BOT_TOKEN"])
