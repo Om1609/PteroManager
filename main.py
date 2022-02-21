@@ -1,8 +1,5 @@
-import discord
-from discord.commands import Option
 from dotenv import load_dotenv
-from utils.logging import log
-from utils.bot import PteroManager
+from utilities.bot import PteroManager
 import os
 
 # Load the env file
