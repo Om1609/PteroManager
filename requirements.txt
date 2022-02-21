@@ -1,3 +1,9 @@
 git+https://github.com/pycord-development/pycord
 rich
 python-dotenv
+cchardet
+aiohttp
+aiodns
+orjson
+uvloop
+brotlipy

@@ -1,5 +1,5 @@
 from discord.ext import commands
-from discord.commands import slash_command
+from discord.commands import slash_command, ApplicationContext
 
 
 class Admin(commands.Cog):
@@ -7,7 +7,7 @@ class Admin(commands.Cog):
         self.bot = bot
 
     @slash_command(name="test")
-    async def test(self, ctx):
+    async def test(self, ctx: ApplicationContext):
         await ctx.respond("hey lol")
 
 

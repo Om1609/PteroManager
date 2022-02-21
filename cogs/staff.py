@@ -2,9 +2,12 @@ from discord.ext import commands
 import discord
 from discord import Embed
 import os
-from discord.commands import slash_command, Option
+from discord.commands import slash_command, Option, permissions
 from utilities.logging import log
+from utilities.bot import PteroManager
 import asyncio
+import aiohttp
+import orjson
 
 # Define a simple View that gives us a confirmation menu
 class Confirm(discord.ui.View):
@@ -37,12 +40,9 @@ class Confirm(discord.ui.View):
 
 
 class Staff(commands.Cog):
-    def __init__(self, bot):
+    def __init__(self, bot: PteroManager):
         self.bot = bot
-
-    @property
-    def _session(self):
-        return self.bot.http._HTTPClient__session
+        self._session = aiohttp.ClientSession(json_serialize=orjson.dumps)
 
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
@@ -67,7 +67,7 @@ class Staff(commands.Cog):
                 headers=headers,
             )
             if req.status == 200:
-                jsonResponse = await req.json()
+                jsonResponse = await req.json(loads = orjson.loads)
                 data = {
                     "name": jsonResponse["attributes"]["name"],
                     "id": jsonResponse["attributes"]["identifier"],
@@ -151,7 +151,7 @@ class Staff(commands.Cog):
                 headers=headers,
             )
             if req.status == 200:
-                jsonResponse = await req.json()
+                jsonResponse = await req.json(loads=orjson.loads)
                 data = {
                     "name": jsonResponse["attributes"]["name"],
                     "id": jsonResponse["attributes"]["identifier"],

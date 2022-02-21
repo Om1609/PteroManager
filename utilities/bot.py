@@ -1,6 +1,8 @@
 import discord
 import os
 from utilities.logging import log
+import uvloop
+uvloop.install()
 
 class PteroManager(discord.Bot):
     def __init__(self):
