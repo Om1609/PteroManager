@@ -107,10 +107,11 @@ class Staff(commands.Cog):
                 )
             else:
                 info_embed = Embed(
-                    title=f"Error",
+                    title='Error',
                     description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
                     color=0xFF0033,
                 )
+
             if hide == True:
                 await ctx.respond(embed=info_embed, ephemeral=True)
 
@@ -122,10 +123,11 @@ class Staff(commands.Cog):
                 f"{ctx.author.name}#{ctx.author.discriminator} ({ctx.author.id}) attempt to run the Server Lookup command!",
             )
             embed = Embed(
-                title=f"Error",
+                title='Error',
                 description=f"Sorry, {ctx.author.name}, but you don't have permission to run this command!",
                 color=0xFF0033,
             )
+
             await ctx.respond(embed=embed, ephemeral=True)
 
     @slash_command(
@@ -197,10 +199,11 @@ class Staff(commands.Cog):
                 )
             else:
                 info_embed = Embed(
-                    title=f"Error",
+                    title='Error',
                     description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
                     color=0xFF0033,
                 )
+
             view = Confirm()
             if hide == True:
                 await ctx.respond(embed=info_embed, ephemeral=True, view=view)
@@ -276,10 +279,11 @@ class Staff(commands.Cog):
                 f"{ctx.author.name}#{ctx.author.discriminator} ({ctx.author.id}) attempt to run the Delete Server command!",
             )
             embed = Embed(
-                title=f"Error",
+                title='Error',
                 description=f"Sorry, {ctx.author.name}, but you don't have permission to run this command!",
                 color=0xFF0033,
             )
+
             await ctx.respond(embed=embed, ephemeral=True)
 
 
