@@ -41,10 +41,12 @@ class Staff(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Make the session easier to use.
     @property
     def _session(self):
         return self.bot.http._HTTPClient__session
 
+    # Look up servers
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
         description="Get information about a specified server!",
@@ -58,7 +60,6 @@ class Staff(commands.Cog):
         roles = [role.name for role in ctx.author.roles]
         if os.environ["ROLE_NAME"] in roles:
             key = os.environ["ADMINS_API_KEY"]
-            # await ctx.respond(f"Looking up {serverid}!", ephemeral=True)
             headers = {
                 "Content-Type": "application/json",
                 "Authorization": f"Bearer {key}",
@@ -125,6 +126,7 @@ class Staff(commands.Cog):
             )
             await ctx.respond(embed=embed, ephemeral=True)
 
+    #Delete a server
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
         description="Delete a specified server!",

@@ -16,5 +16,5 @@ class PteroManager(discord.Bot):
                 self.load_extension(f"cogs.{filename[:-3]}")
 
     async def on_ready(self):
-        # Log to the user that we're signed in
+        # Log to the console that we're signed in
         log(4, f"We have logged in as {self.user}")
