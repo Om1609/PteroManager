@@ -6,6 +6,7 @@ from discord.commands import slash_command, Option
 from utilities.logging import log
 import asyncio
 
+
 # Define a simple View that gives us a confirmation menu
 class Confirm(discord.ui.View):
     def __init__(self):
@@ -107,22 +108,18 @@ class Staff(commands.Cog):
                 )
             else:
                 info_embed = Embed(
-                    title=f"Error",
+                    title="Error",
                     description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
                     color=0xFF0033,
                 )
-            if hide == True:
-                await ctx.respond(embed=info_embed, ephemeral=True)
-
-            else:
-                await ctx.respond(embed=info_embed, ephemeral=False)
+            await ctx.respond(embed=info_embed, ephemeral=hide)
         else:
             log(
                 3,
                 f"{ctx.author.name}#{ctx.author.discriminator} ({ctx.author.id}) attempt to run the Server Lookup command!",
             )
             embed = Embed(
-                title=f"Error",
+                title="Error",
                 description=f"Sorry, {ctx.author.name}, but you don't have permission to run this command!",
                 color=0xFF0033,
             )
@@ -197,86 +194,56 @@ class Staff(commands.Cog):
                 )
             else:
                 info_embed = Embed(
-                    title=f"Error",
+                    title="Error",
                     description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
                     color=0xFF0033,
                 )
             view = Confirm()
-            if hide == True:
-                await ctx.respond(embed=info_embed, ephemeral=True, view=view)
-                await view.wait()
-                if view.value is None:
-                    await ctx.respond("Timed out! Cancelling.", ephemeral=True)
-                elif view.value == True:
-                    await ctx.respond("Confirmed! Going ahead now.", ephemeral=True)
-                    admin_key = os.environ["PTERO_ADMIN_KEY"]
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": f"Bearer {admin_key}",
-                    }
-                    var = data["internalid"]
-                    req = await self._session.delete(
-                        f"https://panel.epikhost.xyz/api/application/servers/{var}/force",
-                        headers=headers,
+            await ctx.respond(embed=info_embed, ephemeral=hide, view=view)
+            await view.wait()
+            if view.value is None:
+                await ctx.respond("Timed out! Cancelling.", ephemeral=hide)
+            elif view.value is True:
+                await ctx.respond("Confirmed! Going ahead now.", ephemeral=hide)
+                admin_key = os.environ["PTERO_ADMIN_KEY"]
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {admin_key}",
+                }
+                var = data["internalid"]
+                req = await self._session.delete(
+                    f"https://panel.epikhost.xyz/api/application/servers/{var}/force",
+                    headers=headers,
+                )
+                await asyncio.sleep(1.5)
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {key}",
+                }
+                req = await self._session.get(
+                    f"https://panel.epikhost.xyz/api/client/servers/{serverid}",
+                    headers=headers,
+                )
+                if req.status == 200:
+                    await ctx.respond(
+                        "Failed to delete. Please try again later.",
+                        ephemeral=hide,
                     )
-                    await asyncio.sleep(1.5)
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": f"Bearer {key}",
-                    }
-                    req = await self._session.get(
-                        f"https://panel.epikhost.xyz/api/client/servers/{serverid}",
-                        headers=headers,
-                    )
-                    if req.status == 200:
-                        await ctx.respond(
-                            "Failed to delete. Please try again later.", ephemeral=True
-                        )
-                    else:
-                        await ctx.respond(
-                            "Success! Deleted the server!", ephemeral=True
-                        )
                 else:
-                    await ctx.respond("Cancelled! Stopping.", ephemeral=True)
+                    await ctx.respond(
+                        "Success! Deleted the server!",
+                        ephemeral=hide,
+                    )
             else:
-                await ctx.respond(embed=info_embed, ephemeral=False, view=view)
-                await view.wait()
-                if view.value is None:
-                    await ctx.respond("Timed out! Cancelling.")
-                elif view.value == True:
-                    await ctx.respond("Confirmed! Going ahead now.")
-                    admin_key = os.environ["PTERO_ADMIN_KEY"]
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": f"Bearer {admin_key}",
-                    }
-                    var = data["internalid"]
-                    req = await self._session.delete(
-                        f"https://panel.epikhost.xyz/api/application/servers/{var}/force",
-                        headers=headers,
-                    )
-                    await asyncio.sleep(1.5)
-                    headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": f"Bearer {key}",
-                    }
-                    req = await self._session.get(
-                        f"https://panel.epikhost.xyz/api/client/servers/{serverid}",
-                        headers=headers,
-                    )
-                    if req.status == 200:
-                        await ctx.respond("Failed to delete. Please try again later.")
-                    else:
-                        await ctx.send("Success! Deleted the server!")
-                else:
-                    await ctx.respond("Cancelled! Stopping.")
+                await ctx.respond("Cancelled! Stopping.", ephemeral=hide)
+
         else:
             log(
                 3,
                 f"{ctx.author.name}#{ctx.author.discriminator} ({ctx.author.id}) attempt to run the Delete Server command!",
             )
             embed = Embed(
-                title=f"Error",
+                title="Error",
                 description=f"Sorry, {ctx.author.name}, but you don't have permission to run this command!",
                 color=0xFF0033,
             )
