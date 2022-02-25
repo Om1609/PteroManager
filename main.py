@@ -27,4 +27,7 @@ except:
 try:
     bot.run(os.environ["BOT_TOKEN"])
 except:
-    logging.log(1, f"Bot failed to start. Check the token and your network connection then try again!")
+    logging.log(
+        1,
+        "Bot failed to start. Check the token and your network connection then try again!",
+    )
