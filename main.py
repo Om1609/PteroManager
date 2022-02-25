@@ -19,7 +19,8 @@ bot = PteroManager()
 try:
     bot.load_cogs()
     logging.log(4, "Loaded all cogs successfully!!")
-except:
+except Exception as e:
+    print(e)
     logging.log(1, "Error in loading cogs. Bot will not start.")
     exit()
 
