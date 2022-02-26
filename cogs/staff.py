@@ -129,7 +129,7 @@ class Staff(commands.Cog):
             )
             await ctx.respond(embed=embed, ephemeral=True)
 
-    #Delete a server
+    # Delete a server
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
         description="Delete a specified server!",

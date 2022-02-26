@@ -2,6 +2,7 @@ import discord
 import os
 from utilities.logging import log
 
+
 class PteroManager(discord.Bot):
     def __init__(self):
         super().__init__(
