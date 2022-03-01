@@ -9,9 +9,10 @@ import asyncio
 
 # Define a simple View that gives us a confirmation menu
 class Confirm(discord.ui.View):
-    def __init__(self):
+    def __init__(self, msg: bool):
         super().__init__()
         self.value = None
+        self.msg = msg
 
     # When the confirm button is pressed, set the inner value to `True` and
     # Stop the View from listening to more input.
@@ -24,7 +25,8 @@ class Confirm(discord.ui.View):
         self.value = True
         for _button in self.children:
             _button.disabled = True
-        await interaction.message.edit(view=self)
+        if not self.msg:  # Checks if a message is ephemeral or not.
+            await interaction.message.edit(view=self)
         self.stop()
 
     # This one is similar to the confirmation button except sets the inner value to `False`
@@ -33,7 +35,8 @@ class Confirm(discord.ui.View):
         self.value = False
         for _button in self.children:
             _button.disabled = True
-        await interaction.message.edit(view=self)
+        if not self.msg:
+            await interaction.message.edit(view=self)
         self.stop()
 
 
@@ -126,7 +129,7 @@ class Staff(commands.Cog):
             )
             await ctx.respond(embed=embed, ephemeral=True)
 
-    #Delete a server
+    # Delete a server
     @slash_command(
         guild_ids=[os.environ["GUILD_ID"]],
         description="Delete a specified server!",
@@ -200,7 +203,7 @@ class Staff(commands.Cog):
                     description=f"Sorry, {ctx.author.name}, but the server {serverid} doesn't exist or the panel is down!",
                     color=0xFF0033,
                 )
-            view = Confirm()
+            view = Confirm(msg=hide)
             await ctx.respond(embed=info_embed, ephemeral=hide, view=view)
             await view.wait()
             if view.value is None:
